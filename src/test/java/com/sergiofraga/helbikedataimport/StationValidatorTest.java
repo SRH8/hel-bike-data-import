@@ -1,0 +1,55 @@
+package com.sergiofraga.helbikedataimport;
+
+import com.sergiofraga.helbikedataimport.station.Station;
+import com.sergiofraga.helbikedataimport.station.StationValidator;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.batch.item.validator.ValidationException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Tests for StationValidator class
+ */
+public class StationValidatorTest {
+
+    StationValidator validator = new StationValidator();
+
+    @Test
+    @DisplayName(value = "When a station has an invalid longitude it should throw an exception")
+    public void whenInvalidLongitude_thenThrowsException() {
+        Station station = new Station();
+        station.setX(-180.01d);
+        Exception exception = assertThrows(ValidationException.class, () ->
+            validator.validate(station));
+
+        assertEquals("longitude should be a valid value", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName(value = "When a station has a valid longitude it should not throw an exception")
+    public void whenValidLongitude_thenNoExceptionIsThrown() {
+        Station station = new Station();
+        station.setX(-80.01d);
+        assertDoesNotThrow(() -> { validator.validate(station); });
+    }
+
+    @Test
+    @DisplayName(value = "When a station has an invalid latitude it should throw an exception")
+    public void whenInvalidLatitude_thenThrowsException() {
+        Station station = new Station();
+        station.setY(90.01d);
+        Exception exception = assertThrows(ValidationException.class, () ->
+                validator.validate(station));
+
+        assertEquals("latitude should be a valid value", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName(value = "When a station has a valid latitude it should not throw an exception")
+    public void whenValidLatitude_thenNoExceptionIsThrown() {
+        Station station = new Station();
+        station.setY(-89.99d);
+        assertDoesNotThrow(() -> { validator.validate(station); });
+    }
+}
