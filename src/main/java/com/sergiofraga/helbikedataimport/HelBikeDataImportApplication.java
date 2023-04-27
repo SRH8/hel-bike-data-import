@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HelBikeDataImportApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HelBikeDataImportApplication.class, args);
+		System.exit(SpringApplication.exit(SpringApplication.run(HelBikeDataImportApplication.class, args)));
 	}
 
 }
