@@ -48,7 +48,7 @@ public class StationBatchConfiguration {
     }
 
     /**
-     * Initialises an item writer for writing stations to a database
+     * Initialises a JdbcBatchItemWriter for writing stations to a database
      *
      * @param dataSource database connection
      * @return JdbcBatchItemWriter writer
@@ -75,5 +75,44 @@ public class StationBatchConfiguration {
         stationValidator.setFilter(true);
 
         return stationValidator;
+    }
+
+    /**
+     * Initialises a Job for importing stations
+     *
+     * @param stationsJobRepository repository responsible for persistence of batch meta-data entities
+     * @param stationJobListener listener
+     * @param importStationsStep the step that will be executed
+     * @return JobBuilder job
+     */
+    @Bean(name = "importStationsJobBean")
+    public Job importStationsJobBean(JobRepository stationsJobRepository,
+                                     StationJobCompletionNotificationListener stationJobListener, @Qualifier("importStationsStep") Step importStationsStep) {
+        return new JobBuilder("importStationsJob", stationsJobRepository)
+                .incrementer(new RunIdIncrementer())
+                .listener(stationJobListener)
+                .flow(importStationsStep)
+                .end()
+                .build();
+    }
+
+    /**
+     * Initialises a Step for importing stations
+     *
+     * @param stationsJobRepository repository responsible for persistence of batch meta-data entities
+     * @param transactionManager template to create, commit or roll back transactions
+     * @param stationWriter writer for writing stations to a database
+     * @return StepBuilder step
+     */
+    @Bean
+    @Qualifier("importStationsStep")
+    public Step importStationsStepBean(JobRepository stationsJobRepository,
+                                       PlatformTransactionManager transactionManager, JdbcBatchItemWriter<Station> stationWriter) {
+        return new StepBuilder("importStationsStep", stationsJobRepository)
+                .<Station, Station>chunk(10, transactionManager)
+                .reader(stationReader())
+                .processor(stationValidator())
+                .writer(stationWriter)
+                .build();
     }
 }
