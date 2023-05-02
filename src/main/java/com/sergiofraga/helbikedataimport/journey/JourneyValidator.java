@@ -31,7 +31,7 @@ public class JourneyValidator implements Validator<Journey> {
         }
 
         if(journey.getDepartureStationId() < 0 || journey.getReturnStationId() < 0) {
-            throw new ValidationException("departure and return station id should be a positive integer ");
+            throw new ValidationException("departure and return station id should be a positive integer");
         }
     }
 

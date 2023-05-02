@@ -20,6 +20,13 @@ public class Journey {
     public Journey() {
     }
 
+    public Journey(int departureStationId, int returnStationId, int durationS, int distanceCoveredM) {
+        this.departureStationId = departureStationId;
+        this.returnStationId = returnStationId;
+        this.durationS = durationS;
+        this.distanceCoveredM = distanceCoveredM;
+    }
+
     public LocalDateTime getDepartureDate() {
         return departureDate;
     }

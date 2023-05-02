@@ -1,4 +1,4 @@
-package com.sergiofraga.helbikedataimport;
+package com.sergiofraga.helbikedataimport.station;
 
 import com.sergiofraga.helbikedataimport.station.Station;
 import com.sergiofraga.helbikedataimport.station.StationValidator;
