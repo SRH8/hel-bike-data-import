@@ -10,6 +10,18 @@ CREATE TABLE IF NOT EXISTS `city_bike_app`.`stations` (
   `stad` VARCHAR(45) NULL,
   `operaattor` VARCHAR(45) NULL,
   `kapasiteet` INT NULL,
-  `x` DOUBLE NULL,
-  `y` DOUBLE NULL,
+  `x` DOUBLE NOT NULL,
+  `y` DOUBLE NOT NULL,
   PRIMARY KEY (`fid`));
+
+  CREATE TABLE IF NOT EXISTS `city_bike_app`.`journeys` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `departure_date` DATETIME NOT NULL,
+    `return_date` DATETIME NOT NULL,
+    `departure_station_id` INT NOT NULL,
+    `departure_station_name` VARCHAR(45) NOT NULL,
+    `return_station_id` INT NOT NULL,
+    `return_station_name` VARCHAR(45) NOT NULL,
+    `covered_distance_m` INT NOT NULL,
+    `duration_s` INT NOT NULL,
+    PRIMARY KEY (`id`));
