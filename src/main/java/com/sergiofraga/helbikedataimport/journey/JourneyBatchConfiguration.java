@@ -135,6 +135,7 @@ public class JourneyBatchConfiguration {
         return new StepBuilder("importJourneysStep", journeysJobRepository)
                 .<Journey, Journey>chunk(10, transactionManager)
                 .reader(multiResourceJourneyReader())
+                .processor(journeyValidator())
                 .writer(journeyWriter)
                 .build();
     }
