@@ -2,6 +2,12 @@ package com.sergiofraga.helbikedataimport.journey;
 
 import javax.sql.DataSource;
 
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
@@ -11,10 +17,12 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * Batch configuration for the import journeys job
@@ -91,5 +99,43 @@ public class JourneyBatchConfiguration {
         journeyValidator.setFilter(true);
 
         return journeyValidator;
+    }
+
+    /**
+     * Initialises a Job for importing journeys
+     *
+     * @param journeysJobRepository repository responsible for persistence of batch meta-data entities
+     * @param journeyJobListener job listener
+     * @param importJourneysStep the step that will be executed during the job
+     * @return JobBuilder job
+     */
+    @Bean(name = "importJourneysJobBean")
+    public Job importJourneysJobBean(JobRepository journeysJobRepository,
+                                     JourneyJobCompletionNotificationListener journeyJobListener, @Qualifier("importJourneysStep") Step importJourneysStep) {
+        return new JobBuilder("importJourneysJob", journeysJobRepository)
+                .incrementer(new RunIdIncrementer())
+                .listener(journeyJobListener)
+                .flow(importJourneysStep)
+                .end()
+                .build();
+    }
+
+    /**
+     * Initialises a Step for importing journeys
+     *
+     * @param journeysJobRepository repository responsible for persistence of batch meta-data entities
+     * @param transactionManager template to create, commit or roll back transactions
+     * @param journeyWriter writer for writing journeys to a database
+     * @return StepBuilder step
+     */
+    @Bean
+    @Qualifier("importJourneysStep")
+    public Step importJourneysStepBean(JobRepository journeysJobRepository,
+                                       PlatformTransactionManager transactionManager, JdbcBatchItemWriter<Journey> journeyWriter) {
+        return new StepBuilder("importJourneysStep", journeysJobRepository)
+                .<Journey, Journey>chunk(10, transactionManager)
+                .reader(multiResourceJourneyReader())
+                .writer(journeyWriter)
+                .build();
     }
 }
