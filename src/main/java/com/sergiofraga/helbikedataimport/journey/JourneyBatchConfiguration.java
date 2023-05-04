@@ -129,7 +129,7 @@ public class JourneyBatchConfiguration {
      * @return StepBuilder step
      */
     @Bean
-    @Qualifier("importJourneysStep")
+    @Qualifier(value = "importJourneysStep")
     public Step importJourneysStepBean(JobRepository journeysJobRepository,
                                        PlatformTransactionManager transactionManager, JdbcBatchItemWriter<Journey> journeyWriter) {
         return new StepBuilder("importJourneysStep", journeysJobRepository)

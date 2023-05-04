@@ -1,7 +1,5 @@
 package com.sergiofraga.helbikedataimport.station;
 
-import com.sergiofraga.helbikedataimport.station.Station;
-import com.sergiofraga.helbikedataimport.station.StationValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.validator.ValidationException;
@@ -15,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class StationValidatorTest {
 
-    StationValidator validator = new StationValidator();
+    private final StationValidator validator = new StationValidator();
 
     @Test
     @DisplayName(value = "When a station has an invalid longitude it should throw an exception")
@@ -33,7 +31,8 @@ class StationValidatorTest {
     void whenValidLongitude_thenNoExceptionIsThrown() {
         Station station = new Station();
         station.setX(-80.01d);
-        assertDoesNotThrow(() -> { validator.validate(station); });
+
+        assertDoesNotThrow(() -> validator.validate(station));
     }
 
     @Test
@@ -52,6 +51,7 @@ class StationValidatorTest {
     void whenValidLatitude_thenNoExceptionIsThrown() {
         Station station = new Station();
         station.setY(-89.99d);
-        assertDoesNotThrow(() -> { validator.validate(station); });
+
+        assertDoesNotThrow(() -> validator.validate(station));
     }
 }

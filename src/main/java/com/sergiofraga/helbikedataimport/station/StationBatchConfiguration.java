@@ -81,8 +81,8 @@ public class StationBatchConfiguration {
      * Initialises a Job for importing stations
      *
      * @param stationsJobRepository repository responsible for persistence of batch meta-data entities
-     * @param stationJobListener listener
-     * @param importStationsStep the step that will be executed
+     * @param stationJobListener job listener
+     * @param importStationsStep the step that will be executed during the job
      * @return JobBuilder job
      */
     @Bean(name = "importStationsJobBean")
@@ -105,7 +105,7 @@ public class StationBatchConfiguration {
      * @return StepBuilder step
      */
     @Bean
-    @Qualifier("importStationsStep")
+    @Qualifier(value = "importStationsStep")
     public Step importStationsStepBean(JobRepository stationsJobRepository,
                                        PlatformTransactionManager transactionManager, JdbcBatchItemWriter<Station> stationWriter) {
         return new StepBuilder("importStationsStep", stationsJobRepository)
