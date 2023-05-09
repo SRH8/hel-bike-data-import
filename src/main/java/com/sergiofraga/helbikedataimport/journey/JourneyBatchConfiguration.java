@@ -13,7 +13,6 @@ import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
@@ -43,12 +42,11 @@ public class JourneyBatchConfiguration {
         DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer();
         delimitedLineTokenizer.setNames(Journey.fields());
 
-        BeanWrapperFieldSetMapper<Journey> beanWrapperFieldSetMapper = new BeanWrapperFieldSetMapper<>();
-        beanWrapperFieldSetMapper.setTargetType(Journey.class);
+        JourneyFieldSetMapper journeyFieldSetMapper = new JourneyFieldSetMapper();
 
         DefaultLineMapper<Journey> defaultLineMapper = new DefaultLineMapper<>();
         defaultLineMapper.setLineTokenizer(delimitedLineTokenizer);
-        defaultLineMapper.setFieldSetMapper(beanWrapperFieldSetMapper);
+        defaultLineMapper.setFieldSetMapper(journeyFieldSetMapper);
 
         FlatFileItemReader<Journey> reader = new FlatFileItemReader<>();
         reader.setLinesToSkip(1);

@@ -32,7 +32,11 @@ public class Journey {
     }
 
     public void setDepartureDate(String departureDate) {
-        this.departureDate = LocalDateTime.parse(departureDate);
+        if(departureDate.isBlank()){
+            this.departureDate = null;
+        } else {
+            this.departureDate = LocalDateTime.parse(departureDate);
+        }
     }
 
     public LocalDateTime getReturnDate() {
@@ -40,7 +44,11 @@ public class Journey {
     }
 
     public void setReturnDate(String returnDate) {
-        this.returnDate = LocalDateTime.parse(returnDate);
+        if(returnDate.isBlank()){
+            this.returnDate = null;
+        } else {
+            this.returnDate = LocalDateTime.parse(returnDate);
+        }
     }
 
     public int getDepartureStationId() {
