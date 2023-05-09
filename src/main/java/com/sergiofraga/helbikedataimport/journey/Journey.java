@@ -9,7 +9,7 @@ public class Journey {
     private String departureStationName;
     private int returnStationId;
     private String returnStationName;
-    private int distanceCoveredM;
+    private float distanceCoveredM;
     private int durationS;
 
     public static String [] fields(){
@@ -20,7 +20,7 @@ public class Journey {
     public Journey() {
     }
 
-    public Journey(int departureStationId, int returnStationId, int durationS, int distanceCoveredM) {
+    public Journey(int departureStationId, int returnStationId, int durationS, float distanceCoveredM) {
         this.departureStationId = departureStationId;
         this.returnStationId = returnStationId;
         this.durationS = durationS;
@@ -75,11 +75,11 @@ public class Journey {
         this.returnStationName = returnStationName;
     }
 
-    public int getDistanceCoveredM() {
+    public float getDistanceCoveredM() {
         return distanceCoveredM;
     }
 
-    public void setDistanceCoveredM(int distanceCoveredM) {
+    public void setDistanceCoveredM(float distanceCoveredM) {
         this.distanceCoveredM = distanceCoveredM;
     }
 

@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS `city_bike_app`.`journeys` (
   `departure_station_name` VARCHAR(45) NOT NULL,
   `return_station_id` INT NOT NULL,
   `return_station_name` VARCHAR(45) NOT NULL,
-  `covered_distance_m` INT NOT NULL,
+  `covered_distance_m` FLOAT NOT NULL,
   `duration_s` INT NOT NULL,
   PRIMARY KEY (`id`));
