@@ -19,11 +19,11 @@ public class JourneyValidator implements Validator<Journey> {
     @Override
     public void validate(Journey journey) throws ValidationException {
         if(journey.getDepartureDate() == null) {
-            throw new ValidationException("departure date should not be null");
+            throw new ValidationException("departure date should have a valid format");
         }
 
         if(journey.getReturnDate() == null) {
-            throw new ValidationException("return date should not be null");
+            throw new ValidationException("return date should have a valid format");
         }
 
         if(journey.getDurationS() < 10) {

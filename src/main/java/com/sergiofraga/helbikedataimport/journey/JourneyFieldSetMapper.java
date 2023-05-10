@@ -21,8 +21,8 @@ public class JourneyFieldSetMapper implements FieldSetMapper<Journey> {
     @Override
     public Journey mapFieldSet(FieldSet fieldSet) throws BindException {
         Journey journey = new Journey();
-        journey.setDepartureDate(getDate(fieldSet, "departureDate"));
-        journey.setReturnDate(getDate(fieldSet, "returnDate"));
+        journey.setDepartureDate(fieldSet.readString("departureDate"));
+        journey.setReturnDate(fieldSet.readString("returnDate"));
         journey.setDepartureStationId(fieldSet.readInt("departureStationId", -1));
         journey.setDepartureStationName(fieldSet.readString("departureStationName"));
         journey.setReturnStationId(fieldSet.readInt("returnStationId", -1));
@@ -49,22 +49,5 @@ public class JourneyFieldSetMapper implements FieldSetMapper<Journey> {
         }
 
         return 0;
-    }
-
-    /**
-     * Reads a date from a journey record in the file
-     *
-     * @param fieldSet FieldSet instance
-     * @param date date field
-     * @return String date if its format matches with the regular expression, otherwise returns an empty string
-     */
-    private String getDate(FieldSet fieldSet, String date) {
-        String dateToCheck = fieldSet.readString(date);
-
-        if (dateToCheck.matches("^(19|20)\\d\\d-(0[1-9]|1[012])-([012]\\d|3[01])T([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$")){
-            return dateToCheck;
-        }
-
-        return "";
     }
 }

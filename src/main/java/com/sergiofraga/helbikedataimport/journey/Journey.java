@@ -32,10 +32,10 @@ public class Journey {
     }
 
     public void setDepartureDate(String departureDate) {
-        if(departureDate.isBlank()){
-            this.departureDate = null;
-        } else {
+        if(validateDateFormat(departureDate)) {
             this.departureDate = LocalDateTime.parse(departureDate);
+        } else {
+            this.departureDate = null;
         }
     }
 
@@ -44,10 +44,10 @@ public class Journey {
     }
 
     public void setReturnDate(String returnDate) {
-        if(returnDate.isBlank()){
-            this.returnDate = null;
-        } else {
+        if(validateDateFormat(returnDate)) {
             this.returnDate = LocalDateTime.parse(returnDate);
+        } else {
+            this.returnDate = null;
         }
     }
 
@@ -111,5 +111,9 @@ public class Journey {
                 ", distanceCoveredM=" + distanceCoveredM +
                 ", durationS=" + durationS +
                 '}';
+    }
+
+    private boolean validateDateFormat(String date) {
+        return date.matches("^(19|20)\\d\\d-(0[1-9]|1[012])-([012]\\d|3[01])T([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$");
     }
 }

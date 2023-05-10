@@ -17,6 +17,8 @@ class JourneyValidatorTest {
     @DisplayName(value = "When the duration of a journey is less than 10 seconds it should throw an exception")
     void whenInvalidDuration_thenThrowsException() {
         Journey journey = new Journey(1, 2, 5, 11);
+        journey.setDepartureDate("2021-06-23T16:10:11");
+        journey.setReturnDate("2021-06-23T16:20:25");
         Exception exception = assertThrows(ValidationException.class, () ->
                 validator.validate(journey));
 
@@ -27,6 +29,8 @@ class JourneyValidatorTest {
     @DisplayName(value = "When the distance covered in a journey is shorter than 10 meters it should throw an exception")
     void whenInvalidDistanceCovered_thenThrowsException() {
         Journey journey = new Journey(1, 2, 10, 9);
+        journey.setDepartureDate("2021-06-23T16:10:11");
+        journey.setReturnDate("2021-06-23T16:20:25");
         Exception exception = assertThrows(ValidationException.class, () ->
                 validator.validate(journey));
 
