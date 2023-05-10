@@ -82,4 +82,28 @@ class JourneyValidatorTest {
 
         assertDoesNotThrow(() -> validator.validate(journey));
     }
+
+    @Test
+    @DisplayName(value = "Given an incorrect departure date format it should throw an exception")
+    void whenInvalidDepartureDateFormat_thenThrowsException() {
+        Journey journey = new Journey(1, 238, 345, 2303);
+        journey.setDepartureDate("2021-06-12");
+        journey.setReturnDate("2021-06-23T16:20:25");
+        Exception exception = assertThrows(ValidationException.class, () ->
+                validator.validate(journey));
+
+        assertEquals("departure date should have a valid format", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName(value = "Given an incorrect return date format it should throw an exception")
+    void whenInvalidReturnDateFormat_thenThrowsException() {
+        Journey journey = new Journey(1, 238, 345, 2303);
+        journey.setDepartureDate("2021-06-23T16:20:25");
+        journey.setReturnDate("2021-06-24");
+        Exception exception = assertThrows(ValidationException.class, () ->
+                validator.validate(journey));
+
+        assertEquals("return date should have a valid format", exception.getMessage());
+    }
 }
