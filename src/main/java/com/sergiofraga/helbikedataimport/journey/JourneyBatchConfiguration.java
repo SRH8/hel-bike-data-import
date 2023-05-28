@@ -79,7 +79,7 @@ public class JourneyBatchConfiguration {
     public JdbcBatchItemWriter<Journey> journeyWriter(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Journey>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO journeys (departure_date, return_date, departure_station_id, departure_station_name, return_station_id, return_station_name, covered_distance_m, duration_s)" +
+                .sql("INSERT INTO journeys (departure_date, return_date, departure_station_id, departure_station_name, return_station_id, return_station_name, distance_coveredm, durations)" +
                         " VALUES (:departureDate, :returnDate, :departureStationId, :departureStationName, :returnStationId, :returnStationName, :distanceCoveredM, :durationS)")
                 .dataSource(dataSource)
                 .build();
