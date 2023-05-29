@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `city_bike_app`.`journeys` (
   `durations` INT NOT NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `city_bike_app`.`journeys_seq` (
+CREATE TABLE IF NOT EXISTS `city_bike_app`.`journeys_seq` (
   `next_val` INT NOT NULL,
   PRIMARY KEY (`next_val`));
 
-CREATE TABLE `city_bike_app`.`stations_seq` (
+CREATE TABLE IF NOT EXISTS `city_bike_app`.`stations_seq` (
   `next_val` INT NOT NULL,
   PRIMARY KEY (`next_val`));
