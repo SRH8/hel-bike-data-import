@@ -13,7 +13,7 @@ Before running a job to import either stations or journeys, you should have a lo
 
 **_NOTE:_**  remember that the docker compose file provided [here]((https://github.com/SRH8/hel-bike-api#setting-up-the-database)) will also create a phpMyAdmin container that you can use as client!
 
-Once you have set up the database, make sure the city_bike_app schema has been created. Otherwise, you will need to create it manually. You can do so by following the instructions below:
+Once you have set up the database, make sure the city_bike_app schema has been created (Docker should do this automatically). Otherwise, you will need to create it manually. You can do so by following the instructions below:
 
 You can use any MySQL client, however I will be using phpMyAdmin for this part.
 
@@ -41,16 +41,10 @@ Clone the project
   git clone https://github.com/SRH8/hel-bike-data-import.git
 ```
 
-Go to the project directory
+Go to the project directory. Maven will install all necessary dependencies to run the project
 
 ```bash
   cd hel-bike-data-import
-```
-
-Install dependencies
-
-```bash
-  ./mvnw install
 ```
 
 Edit application.properties. The property spring.batch.job.name tells spring batch which job you want to run. By default, it is set to import stations:
